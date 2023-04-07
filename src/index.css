@@ -22,3 +22,10 @@ body {
   position: relative;
   background-color: rgb(255, 255, 255);
 }
+.generate-button .MuiButton-endIcon {
+  display: none;
+}
+
+.generate-button:hover .MuiButton-endIcon {
+  display: inline-flex;
+}
