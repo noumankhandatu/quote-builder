@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import Textarea from "@mui/joy/Textarea";
 import Loader from "./components/loader";
 import SendIcon from "@mui/icons-material/Send";
+import Typist from "react-text-typist";
+import HelpIcon from "@mui/icons-material/Help";
 import "react-toastify/dist/ReactToastify.css";
 
 const VITE_OPENAI_KEY = import.meta.env.VITE_OPENAI_KEY;
@@ -20,11 +22,11 @@ function App() {
   const [ApiData, setApiData] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
-    constituency: "",
+    areaParty: "",
     topic: "",
     newsArticleUrls: "",
-    notes: "",
-    dummyRelease: "",
+    ideaMessage: "",
+    sampleQuote: "",
   });
 
   const handleChange = async (event) => {
@@ -41,13 +43,13 @@ function App() {
     toast("The request may take a min please wait");
     const {
       fullName,
-      constituency,
+      areaParty,
       topic,
       newsArticleUrls,
-      notes,
-      dummyRelease,
+      ideaMessage,
+      sampleQuote,
     } = formData;
-    if (!fullName || !constituency || !topic) {
+    if (!fullName || !areaParty || !topic) {
       return alert("please add all fields");
     }
     // api hit
@@ -59,8 +61,9 @@ function App() {
           messages: [
             {
               role: "user",
-              content: `I want you to imagine you are a press secretary, writing a press release for ${fullName} for ${constituency} Consitution Constituency. You should be an expert in political communications.Topic: ${topic}\nLinks to News Articles: ${newsArticleUrls}\nNotes: ${notes}\n\nWrite a Press Release. Structure of Press Release will be like this: ${
-                dummyRelease ? dummyRelease : "press release"
+              content: `I want you to imagine you are a press secretary, writing some quotes for ${fullName} for ${areaParty}. You should be an expert in political communications.  I am going to give you some example quotes. Pay attention to the writing style and structure of the quotes, taking into account the number of paragraphs used, length of writing, and number, length and position of quotations. Here are the sample quotes:  ${
+                sampleQuote ? sampleQuote : "quote"
+              }. I want you to draft some original quotes, about the following topic  ${topic}. Here are news articles for reference about the topic: ${newsArticleUrls} .The quotes should be written in exactly the same writing style and structure as the example, taking into account the number of paragraphs used, length of writing, and number, length and position of quotations used, which you should have noted previously. Here are the key ideas: ${ideaMessage}                                                                                                                                                                                                                                                                 
               }`,
             },
           ],
@@ -86,11 +89,6 @@ function App() {
     window.location.reload();
   };
 
-  const boldGPTDATA = ApiData.replace(/#|(Outline)/g, "").replace(
-    /(Outline|FOR IMMEDIATE RELEASE)/g,
-    "<strong>$1</strong>"
-  );
-
   return (
     <div className="test">
       <ToastContainer />
@@ -98,35 +96,41 @@ function App() {
         <Box className="Box">
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <img
-              width={"300px"}
-              src="https://writofy.com/wp-content/uploads/2021/08/Press-Release.gif"
+              width={"200px"}
+              src="https://next3-assets.s3.amazonaws.com/journeys/18/description_backgrounds-1423860386-writing_intro.gif"
               alt=""
             />
           </Box>
           <div style={{ marginTop: "50px" }}>
-            <div
+            <h1>Quote Generated :</h1>
+            <br />
+            <Typist
+              typingSpeed={10}
+              showCursor={false}
+              sentences={[ApiData]}
+              loop={false}
               style={{
                 whiteSpace: "pre-wrap",
                 fontSize: "18px",
                 letterSpacing: 2,
               }}
-              dangerouslySetInnerHTML={{ __html: boldGPTDATA }}
             />
           </div>
           <Button
             onClick={handleBack}
             sx={{ mt: 3 }}
             variant="contained"
-            color="warning"
+            color="secondary"
+            endIcon={<HelpIcon />}
           >
-            Generate Another
+            <b> Try Another Quote </b>
           </Button>
         </Box>
       ) : (
         <Box className="Box">
           <div>
             <Typography variant="h3" sx={{ textAlign: "center" }}>
-              Press Release Generator
+              Quote Builder
             </Typography>
 
             <Box sx={{ mt: 4 }} />
@@ -145,13 +149,14 @@ function App() {
             />
             <TextField
               sx={{ mt: 3 }}
-              label="Constituency"
+              label="Area/Party"
               variant="outlined"
-              name="constituency"
-              value={formData.constituency}
+              name="areaParty"
+              value={formData.areaParty}
               onChange={handleChange}
               required
             />
+
             <TextField
               sx={{ mt: 3 }}
               label="Topic"
@@ -171,19 +176,19 @@ function App() {
             />
             <TextField
               sx={{ mt: 3 }}
-              label="Notes (optional)"
+              label="Idea/Key Message (optional)"
               variant="outlined"
-              name="notes"
-              value={formData.notes}
+              name="ideaMessage"
+              value={formData.ideaMessage}
               onChange={handleChange}
             />
             <Textarea
-              value={formData.dummyRelease}
+              value={formData.sampleQuote}
               onChange={handleChange}
-              name="dummyRelease"
+              name="sampleQuote"
               sx={{ mt: 3 }}
               minRows={5}
-              placeholder="Submit your example press release (optional)"
+              placeholder="Sample Quote (optional)"
               size="lg"
             />
             {loading ? (
@@ -193,13 +198,13 @@ function App() {
             ) : (
               <Button
                 className="generate-button"
-                sx={{ mt: 3, backgroundColor: "#3577D2" }}
+                sx={{ mt: 3 }}
                 variant="contained"
-                color="secondary"
+                color="warning"
                 type="submit"
                 endIcon={<SendIcon fontSize="large" />}
               >
-                Generate Press Release
+                <b> Generate Quote </b>
               </Button>
             )}
           </form>
