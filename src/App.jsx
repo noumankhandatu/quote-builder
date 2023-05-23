@@ -8,6 +8,7 @@ import SendIcon from "@mui/icons-material/Send";
 import Typist from "react-text-typist";
 import HelpIcon from "@mui/icons-material/Help";
 import "react-toastify/dist/ReactToastify.css";
+import Stack from "@mui/material/Stack";
 
 const VITE_OPENAI_KEY = import.meta.env.VITE_OPENAI_KEY;
 const token = VITE_OPENAI_KEY;
@@ -41,14 +42,7 @@ function App() {
     event.preventDefault();
     setLoading(true);
     toast("The request may take a min please wait");
-    const {
-      fullName,
-      areaParty,
-      topic,
-      newsArticleUrls,
-      ideaMessage,
-      sampleQuote,
-    } = formData;
+    const { fullName, areaParty, topic, newsArticleUrls, ideaMessage, sampleQuote } = formData;
     if (!fullName || !areaParty || !topic) {
       return alert("please add all fields");
     }
@@ -104,7 +98,16 @@ function App() {
           <div style={{ marginTop: "50px" }}>
             <h1>Quote Generated :</h1>
             <br />
-            <Typist
+            <Typography
+              style={{
+                whiteSpace: "pre-wrap",
+                fontSize: "18px",
+                letterSpacing: 2,
+              }}
+            >
+              {ApiData}
+            </Typography>
+            {/* <Typist
               typingSpeed={10}
               showCursor={false}
               sentences={[ApiData]}
@@ -114,17 +117,16 @@ function App() {
                 fontSize: "18px",
                 letterSpacing: 2,
               }}
-            />
+            /> */}
           </div>
-          <Button
-            onClick={handleBack}
-            sx={{ mt: 3 }}
-            variant="contained"
-            color="secondary"
-            endIcon={<HelpIcon />}
-          >
-            <b> Try Another Quote </b>
-          </Button>
+          <Stack spacing={2}>
+            <Button size="large" onClick={handleBack} sx={{ mt: 3 }} variant="contained" color="secondary" endIcon={<HelpIcon />}>
+              <b> Try Another Quote </b>
+            </Button>
+            <Button onClick={handleSubmit} size="large" sx={{ mt: 3 }} variant="contained" color="info" endIcon={<HelpIcon />}>
+              <b>Generate Quote Again</b>
+            </Button>
+          </Stack>
         </Box>
       ) : (
         <Box className="Box">
@@ -135,18 +137,8 @@ function App() {
 
             <Box sx={{ mt: 4 }} />
           </div>
-          <form
-            style={{ display: "flex", flexDirection: "column" }}
-            onSubmit={handleSubmit}
-          >
-            <TextField
-              label="Full Name"
-              variant="outlined"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
+          <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
+            <TextField label="Full Name" variant="outlined" name="fullName" value={formData.fullName} onChange={handleChange} required />
             <TextField
               sx={{ mt: 3 }}
               label="Area/Party"
@@ -157,15 +149,7 @@ function App() {
               required
             />
 
-            <TextField
-              sx={{ mt: 3 }}
-              label="Topic"
-              variant="outlined"
-              name="topic"
-              value={formData.topic}
-              onChange={handleChange}
-              required
-            />
+            <TextField sx={{ mt: 3 }} label="Topic" variant="outlined" name="topic" value={formData.topic} onChange={handleChange} required />
             <TextField
               sx={{ mt: 3 }}
               label="Links to News Articles (optional)"
