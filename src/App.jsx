@@ -55,10 +55,7 @@ function App() {
           messages: [
             {
               role: "user",
-              content: `I want you to imagine you are a press secretary, writing some quotes for ${fullName} for ${areaParty}. You should be an expert in political communications.  I am going to give you some example quotes. Pay attention to the writing style and structure of the quotes, taking into account the number of paragraphs used, length of writing, and number, length and position of quotations. Here are the sample quotes:  ${
-                sampleQuote ? sampleQuote : "quote"
-              }. I want you to draft some original quotes, about the following topic  ${topic}. Here are news articles for reference about the topic: ${newsArticleUrls} .The quotes should be written in exactly the same writing style and structure as the example, taking into account the number of paragraphs used, length of writing, and number, length and position of quotations used, which you should have noted previously. Here are the key ideas: ${ideaMessage}                                                                                                                                                                                                                                                                 
-              }`,
+              content: `I want you to imagine you are a press secretary, writing a press release for ${fullName} for ${areaParty}. You should be an expert in political communications.     I want you to draft original quote paragraphs that will be used in a press release about the following topic: ${topic} Here are news articles for reference about the topic:  ${newsArticleUrls} I may give you some example quotes. Pay attention to the structure and length of writing.  Here is the sample quotes:  ${sampleQuote}   Here are some key ideas for the quotes:  ${ideaMessage} When you print your answer, include only the quotes, and no description. Do not put the quotes in a list, print the quotes line after line.  `,
             },
           ],
         },
@@ -120,10 +117,24 @@ function App() {
             /> */}
           </div>
           <Stack spacing={2}>
-            <Button size="large" onClick={handleBack} sx={{ mt: 3 }} variant="contained" color="secondary" endIcon={<HelpIcon />}>
+            <Button
+              size="large"
+              onClick={handleBack}
+              sx={{ mt: 3 }}
+              variant="contained"
+              color="secondary"
+              endIcon={<HelpIcon />}
+            >
               <b> Try Another Quote </b>
             </Button>
-            <Button onClick={handleSubmit} size="large" sx={{ mt: 3 }} variant="contained" color="info" endIcon={<HelpIcon />}>
+            <Button
+              onClick={handleSubmit}
+              size="large"
+              sx={{ mt: 3 }}
+              variant="contained"
+              color="info"
+              endIcon={<HelpIcon />}
+            >
               <b>Generate Quote Again</b>
             </Button>
           </Stack>
@@ -138,7 +149,14 @@ function App() {
             <Box sx={{ mt: 4 }} />
           </div>
           <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
-            <TextField label="Full Name" variant="outlined" name="fullName" value={formData.fullName} onChange={handleChange} required />
+            <TextField
+              label="Full Name"
+              variant="outlined"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
             <TextField
               sx={{ mt: 3 }}
               label="Area/Party"
@@ -149,7 +167,15 @@ function App() {
               required
             />
 
-            <TextField sx={{ mt: 3 }} label="Topic" variant="outlined" name="topic" value={formData.topic} onChange={handleChange} required />
+            <TextField
+              sx={{ mt: 3 }}
+              label="Topic"
+              variant="outlined"
+              name="topic"
+              value={formData.topic}
+              onChange={handleChange}
+              required
+            />
             <TextField
               sx={{ mt: 3 }}
               label="Links to News Articles (optional)"
