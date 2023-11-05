@@ -5,14 +5,12 @@ import { ToastContainer, toast } from "react-toastify";
 import Textarea from "@mui/joy/Textarea";
 import Loader from "./components/loader";
 import SendIcon from "@mui/icons-material/Send";
-import Typist from "react-text-typist";
 import HelpIcon from "@mui/icons-material/Help";
 import "react-toastify/dist/ReactToastify.css";
 import Stack from "@mui/material/Stack";
 
 const VITE_OPENAI_KEY = import.meta.env.VITE_OPENAI_KEY;
 const token = VITE_OPENAI_KEY;
-
 const headers = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
@@ -104,17 +102,6 @@ function App() {
             >
               {ApiData}
             </Typography>
-            {/* <Typist
-              typingSpeed={10}
-              showCursor={false}
-              sentences={[ApiData]}
-              loop={false}
-              style={{
-                whiteSpace: "pre-wrap",
-                fontSize: "18px",
-                letterSpacing: 2,
-              }}
-            /> */}
           </div>
           <Stack spacing={2}>
             <Button
@@ -122,7 +109,7 @@ function App() {
               onClick={handleBack}
               sx={{ mt: 3 }}
               variant="contained"
-              color="secondary"
+              color="error"
               endIcon={<HelpIcon />}
             >
               <b> Try Another Quote </b>
@@ -210,7 +197,7 @@ function App() {
                 className="generate-button"
                 sx={{ mt: 3 }}
                 variant="contained"
-                color="warning"
+                color="primary"
                 type="submit"
                 endIcon={<SendIcon fontSize="large" />}
               >
